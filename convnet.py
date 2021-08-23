@@ -114,6 +114,8 @@ def get_data(experiment, occlusion = None, bars_type = None, one_hot = False):
     all_data = np.concatenate((train_images, test_images), axis=0)
     all_labels = np.concatenate((train_labels, test_labels), axis= 0)
 
+    # To load the EMNIST-47 dataset comment out the next for loop.
+    # The EMNIST-36 dataset is loaded by keeping the for loop uncommented.
     for i,l in enumerate(all_labels):
         all_labels[i] = {
             36:10,
@@ -222,6 +224,8 @@ def get_classifier(encoded):
     dense = Dense(constants.domain*2, activation='relu')(encoded)
     drop = Dropout(0.4)(dense)
 
+    # For the EMNIST-47 dataset the first argument of the Dense function is 47
+    # For the EMNIST-36 dataset the first argument of the Dense function is 36
     classification = Dense(36, activation='softmax', name='classification')(drop)
 
     return classification

@@ -183,7 +183,9 @@ am_filling_percent = 0.33   # 0.67 + 0.33 = 1.0
 domain = 64
 
 n_jobs = 8
-# Number of labels in the dataset
+
+# For the EMNIST-47 dataset the value of n_labels is 47
+# For the EMNIST-36 dataset the value of n_labels is 36
 n_labels = 36
 
 labels_per_memory = [0, 1, 2]
@@ -212,7 +214,8 @@ n_behaviours = 7
 memory_sizes = [1, 2, 4, 8, 16, 32, 64, 128, 256, 512]
 memory_fills = [1.0, 2.0, 4.0, 8.0, 16.0, 32.0, 64.0, 100.0]
 
-# Associative Mempry Size: partial_ideal_memory_size and full_ideal_memory_size
+# The Associative Memory Register size is set by the variables
+# partial_ideal_memory_size and full_ideal_memory_size
 partial_ideal_memory_size = 64
 full_ideal_memory_size = 64
 
