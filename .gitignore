@@ -2,3 +2,7 @@ __pycache__/
 runs/
 tmp/
 runexps.sh
+find_bad_imgs.sh
+run_ame.sh
+sample_imgs.sh
+mnist_stats.py

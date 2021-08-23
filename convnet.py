@@ -1,5 +1,6 @@
-# Copyright [2020] Luis Alberto Pineda Cortés, Gibrán Fuentes Pineda,
-# Rafael Morales Gamboa.
+# Copyright [2021] Rafael Morales Gamboa, Noé S. Hernández Sánchez,
+# Carlos Ricardo Cruz Mendoza, Victor D. Cruz González, and
+# Luis Alberto Pineda Cortés.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -18,10 +19,11 @@ import numpy as np
 import tensorflow as tf
 from tensorflow.keras import Model
 from tensorflow.keras.layers import Input, Conv2D, MaxPooling2D, Dropout, Flatten, Dense, \
-    LayerNormalization, Reshape, Conv2DTranspose
+    LayerNormalization, Reshape, Conv2DTranspose, BatchNormalization, UpSampling2D
 from tensorflow.keras.utils import to_categorical
 from tensorflow.keras.callbacks import Callback
 from joblib import Parallel, delayed
+from extra_keras_datasets import emnist
 import png
 
 import constants
@@ -37,9 +39,9 @@ VERTICAL_BARS = 4
 HORIZONTAL_BARS = 5
 
 truly_training_percentage = 0.80
-epochs = 30
+epochs = 40
 batch_size = 100
-patience = 5
+patience = 8
 
 def print_error(*s):
     print('Error:', *s, file = sys.stderr)
@@ -105,17 +107,31 @@ def add_noise(data, experiment, occlusion = 0, bars_type = None):
 
 
 def get_data(experiment, occlusion = None, bars_type = None, one_hot = False):
-
-   # Load MNIST data, as part of TensorFlow.
-    mnist = tf.keras.datasets.mnist
-    (train_images, train_labels), (test_images, test_labels) = mnist.load_data()
+    
+    # Load MNIST data, as part of TensorFlow.
+    (train_images, train_labels), (test_images, test_labels) = emnist.load_data(type='balanced')
 
     all_data = np.concatenate((train_images, test_images), axis=0)
     all_labels = np.concatenate((train_labels, test_labels), axis= 0)
 
+    for i,l in enumerate(all_labels):
+        all_labels[i] = {
+            36:10,
+            37:11,
+            38:13,
+            39:14,
+            40:15,
+            41:16,
+            42:17,
+            43:23,
+            44:26,
+            45:27,
+            46:29
+        }.get(l,l)
+
     all_data = add_noise(all_data, experiment, occlusion, bars_type)
 
-    all_data = all_data.reshape((70000, img_columns, img_rows, 1))
+    all_data = all_data.reshape((all_labels.size, img_columns, img_rows, 1))
     all_data = all_data.astype('float32') / 255
 
 
@@ -138,43 +154,75 @@ def get_data_in_range(data, i, j):
 def get_encoder(input_img):
 
     # Convolutional Encoder
-    conv_1 = Conv2D(32,kernel_size=3, activation='relu', padding='same',
-        input_shape=(img_columns, img_rows, 1))(input_img)
-    pool_1 = MaxPooling2D((2, 2))(conv_1)
-    conv_2 = Conv2D(32,kernel_size=3, activation='relu')(pool_1)
-    pool_2 = MaxPooling2D((2, 2))(conv_2)
-    drop_1 = Dropout(0.4)(pool_2)
-    conv_3 = Conv2D(64, kernel_size=5, activation='relu')(drop_1)
-    pool_3 = MaxPooling2D((2, 2))(conv_3)
-    drop_2 = Dropout(0.4)(pool_3)
-    norm = LayerNormalization()(drop_2)
+    conv = Conv2D(constants.domain//2,kernel_size=3, activation='relu', padding='same',
+                  input_shape=(img_columns, img_rows, 1))(input_img)
+    batch = BatchNormalization()(conv)
+    conv = Conv2D(constants.domain//2,kernel_size=3, activation='relu', padding='same')(batch)
+    batch = BatchNormalization()(conv)
+    pool = MaxPooling2D((2, 2))(batch)
+    drop = Dropout(0.4)(pool)
 
+    conv = Conv2D(constants.domain//2,kernel_size=3, activation='relu', padding='same')(drop)
+    batch = BatchNormalization()(conv)
+    conv = Conv2D(constants.domain//2,kernel_size=3, activation='relu', padding='same')(batch)
+    batch = BatchNormalization()(conv)
+    pool = MaxPooling2D((2, 2))(batch)
+    drop = Dropout(0.4)(pool)
+
+    conv = Conv2D(constants.domain,kernel_size=3, activation='relu', padding='same')(drop)
+    batch = BatchNormalization()(conv)
+    conv = Conv2D(constants.domain,kernel_size=3, activation='relu', padding='same')(batch)
+    batch = BatchNormalization()(conv)
+    conv = Conv2D(constants.domain,kernel_size=3, activation='relu', padding='same')(batch)
+    batch = BatchNormalization()(conv)
+    pool = MaxPooling2D((2, 2))(batch)
+    drop = Dropout(0.4)(pool)
+
+    conv = Conv2D(constants.domain,kernel_size=3, activation='relu', padding='same')(drop)
+    batch = BatchNormalization()(conv)
+    conv = Conv2D(constants.domain,kernel_size=3, activation='relu', padding='same')(batch)
+    batch = BatchNormalization()(conv)
+    conv = Conv2D(constants.domain,kernel_size=3, activation='relu', padding='same')(batch)
+    batch = BatchNormalization()(conv)
+    pool = MaxPooling2D((2, 2))(batch)
+    drop = Dropout(0.4)(pool)
+    norm = LayerNormalization()(drop)
+    
     # Produces an array of size equal to constants.domain.
     code = Flatten()(norm)
-
+    
     return code
 
 
+
 def get_decoder(encoded):
+
     dense = Dense(units=7*7*32, activation='relu', input_shape=(64, ))(encoded)
     reshape = Reshape((7, 7, 32))(dense)
-    trans_1 = Conv2DTranspose(64, kernel_size=3, strides=2,
-        padding='same', activation='relu')(reshape)
-    drop_1 = Dropout(0.4)(trans_1)
-    trans_2 = Conv2DTranspose(32, kernel_size=3, strides=2,
-        padding='same', activation='relu')(drop_1)
-    drop_2 = Dropout(0.4)(trans_2)
-    output_img = Conv2D(1, kernel_size=3, strides=1,
-        activation='sigmoid', padding='same', name='autoencoder')(drop_2)
+
+    trans = Conv2DTranspose(64, kernel_size=3, strides=1,padding='same', activation='relu')(reshape)
+    drop = Dropout(0.4)(trans)
+
+    trans = Conv2DTranspose(64, kernel_size=3, strides=2,padding='same', activation='relu')(drop)
+    drop = Dropout(0.4)(trans)
+
+    trans = Conv2DTranspose(32, kernel_size=3, strides=1,padding='same', activation='relu')(drop)
+    drop = Dropout(0.4)(trans)
+
+    trans = Conv2DTranspose(32, kernel_size=3, strides=2,padding='same', activation='relu')(drop)
+    drop = Dropout(0.4)(trans)
+
+    output_img = Conv2D(1, kernel_size=3, strides=1,activation='sigmoid', padding='same', name='autoencoder')(drop)
 
     # Produces an image of same size and channels as originals.
     return output_img
 
 
 def get_classifier(encoded):
-    dense_1 = Dense(constants.domain*2, activation='relu')(encoded)
-    drop = Dropout(0.4)(dense_1)
-    classification = Dense(10, activation='softmax', name='classification')(drop)
+    dense = Dense(constants.domain*2, activation='relu')(encoded)
+    drop = Dropout(0.4)(dense)
+
+    classification = Dense(36, activation='softmax', name='classification')(drop)
 
     return classification
 
@@ -437,7 +485,7 @@ def remember(experiment, occlusion = None, bars_type = None, tolerance = 0):
         decoder = Model(inputs=input_mem, outputs=decoded)
         decoder.summary()
 
-        for dlayer, alayer in zip(decoder.layers[1:], autoencoder.layers[11:]):
+        for dlayer, alayer in zip(decoder.layers[1:], autoencoder.layers[31:]):
             dlayer.set_weights(alayer.get_weights())
 
         produced_images = decoder.predict(testing_features)

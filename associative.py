@@ -1,5 +1,6 @@
-# Copyright [2020] Luis Alberto Pineda Cortés, Gibrán Fuentes Pineda,
-# Rafael Morales Gamboa.
+# Copyright [2021] Rafael Morales Gamboa, Noé S. Hernández Sánchez,
+# Carlos Ricardo Cruz Mendoza, Victor D. Cruz González, and
+# Luis Alberto Pineda Cortés.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -13,7 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# File originally create by Raul Peralta-Lozada.
+# File originally created by Raul Peralta-Lozada.
 
 import numpy as np
 import random
