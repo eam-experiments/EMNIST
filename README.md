@@ -18,12 +18,12 @@ The following libraries need to be installed beforehand:
 * TensorFlow 2.4.1
 * extra-keras-datasets 1.2.0 <- from where the EMNIST dataset was imported
 
-The experiments were run using the Anaconda 4 distribution. This [link](https://www.osetc.com/en/how-to-install-anaconda-on-ubuntu-16-04-17-04-18-04.html) may be a good resource to install Anaconda, and these other two links ([link1](https://github.com/machinecurve/extra_keras_datasets#installation-procedure) and [link2](https://stackoverflow.com/a/43729857)) show how to install the ``extra-keras-datasets`` library available in your system. You may clone the ``conda`` environment used to run the experiments, found in the file [entropic_associative_mem_env.yml](https://github.com/eam-experiments/EMNIST/blob/main/entropic_associative_mem_env.yml), with the instruction ``$ conda env create -f entropic_associative_mem_env.yml``.
+The experiments were run using the Anaconda 4 distribution. This [link](https://www.osetc.com/en/how-to-install-anaconda-on-ubuntu-16-04-17-04-18-04.html) may be a good resource to install Anaconda, and these other two links ([link1](https://github.com/machinecurve/extra_keras_datasets#installation-procedure) and [link2](https://stackoverflow.com/a/43729857)) show how to install the ``extra-keras-datasets`` library in your system. You may clone the ``conda`` environment in the file [entropic_associative_mem_env.yml](https://github.com/eam-experiments/EMNIST/blob/main/entropic_associative_mem_env.yml) used to run the experiments with the instruction ``$ conda env create -f entropic_associative_mem_env.yml``.
 
 
 ### Use
 
-All commands presented below are run in **this repository's source directory**. The output of the experiments is found in the ``runs/`` subdirectory, that is created as the experiments are executed. The constructed images output by experiments 3 and 4 are saved within the corresponding folder found in the ``runs/images/`` subdirectory.
+All commands presented below are run in **this repository's source directory**. The output of the experiments is in the ``runs/`` subdirectory, that is created as the experiments are executed. The constructed images output by experiments 3 and 4 are saved within the corresponding folder found in the ``runs/images/`` subdirectory.
 
 1. With the next instruction the neural network is trained, separating NN and AM training data (Separate Data NN):
 
@@ -37,7 +37,7 @@ All commands presented below are run in **this repository's source directory**. 
     python3 main_test_associative.py -f
     ```
 
-1. The experiment number 1 described in the paper is run with the two instructions shown next, but before in the file [constants.py](https://github.com/eam-experiments/EMNIST/blob/main/constants.py) the value of 47 is set to the number of labels , and in the file [convent.py](https://github.com/eam-experiments/EMNIST/blob/main/convnet.py) the full EMNIST-47 dataset is loaded and 47 is passed as the number of units in the last ``Dense`` layer of the classifier:
+1. The experiment number 1 described in the paper is run with the two instructions shown next, but before in the file [constants.py](https://github.com/eam-experiments/EMNIST/blob/main/constants.py) the value of 47 is set to the number of labels , and in the file [convent.py](https://github.com/eam-experiments/EMNIST/blob/main/convnet.py) the EMNIST-47 dataset is loaded and 47 is passed as the number of units in the last ``Dense`` layer of the classifier:
 
     ```shell
     python3 main_test_associative.py -e 1
@@ -97,7 +97,7 @@ Finally, the matrices with the retrieved objects from the AMRs shown if figures 
     $ ./select_imgs.sh 10 stage_id_exp_10_random.txt bar_001 tol_002
     ```
 
-    For the last example, the output matrix is saved in the file path ``runs/images/010/stage_id_exp_10-bar_001-tol_002/all.png``. Such path is formed by the prefix ``runs/images/``, followed by the experiment number ``010``, the file text name ``stage_id_exp_10``, and the two optional patterns  ``bar_001`` and ``tol_002``, which may empty if the third and fourth script arguments are missing.
+    For the last example, the output matrix is saved in the file path ``runs/images/010/stage_id_exp_10-bar_001-tol_002/all.png``. Such path is formed by the prefix ``runs/images/``, followed by the experiment number ``010``, the file text name ``stage_id_exp_10``, and the two optional patterns  ``bar_001`` and ``tol_002``, which may be empty if the third and fourth script arguments are missing.
 
 ## License
 
