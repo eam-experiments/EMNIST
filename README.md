@@ -23,7 +23,7 @@ The experiments were run using the Anaconda 4 distribution. This [link](https://
 
 ### Use
 
-All commands presented below are run in **this repository's source directory**. The output of the experiments is in the ``runs/`` subdirectory, that is created as the experiments are executed. The constructed images output by experiments 3 and 4 are saved within the corresponding folder found in the ``runs/images/`` subdirectory.
+All commands presented below are run in **this repository's source directory**. The output of the experiments is in several folders rooted in the ``runs/`` subdirectory, that is created as the experiments are executed. Moreover, within the ``runs/images/`` subdirectory a folder is created for experiment 3 and for the diferent conditions of experiment 4. Inside such folder, other ten are found corresponding to the 10 stages of the cross-validation procedure, each containing eight folders with the diferent leves of entropy holding the constructed images.
 
 1. With the next instruction the neural network is trained, separating NN and AM training data (Separate Data NN):
 
