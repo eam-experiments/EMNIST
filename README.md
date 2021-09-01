@@ -37,14 +37,14 @@ All commands presented below are run in **this repository's source directory**. 
     python3 main_test_associative.py -f
     ```
 
-1. The experiment number 1 described in the paper is run with the two instructions shown next, but before in the file [constants.py](https://github.com/eam-experiments/EMNIST/blob/main/constants.py) the value of 47 is set to the number of labels , and in the file [convent.py](https://github.com/eam-experiments/EMNIST/blob/main/convnet.py) the EMNIST-47 dataset is loaded and 47 is passed as the number of units in the last ``Dense`` layer of the classifier:
+1. The experiment number 1 described in the paper is run with the two instructions shown next, but before the previous steps are executed considering that in the file [constants.py](https://github.com/eam-experiments/EMNIST/blob/main/constants.py) the value of 47 is set to the number of labels, and in the file [convent.py](https://github.com/eam-experiments/EMNIST/blob/main/convnet.py) the EMNIST-47 dataset is loaded and 47 is passed as the number of units in the last ``Dense`` layer of the classifier:
 
     ```shell
     python3 main_test_associative.py -e 1
     python3 main_test_associative.py -e 3
     ```
 
-1. Experiment number 2 described in the paper is also run with the two previous commands, but in the file [constants.py](https://github.com/eam-experiments/EMNIST/blob/main/constants.py) the value of 36 is assigned to the number of labels, and in the file [convent.py](https://github.com/eam-experiments/EMNIST/blob/main/convnet.py) the EMNIST-36 dataset is loaded and 36 is passed as the number of units in the last ``Dense`` layer of the classifier.
+1. Experiment number 2 described in the paper is also run with the two previous commands, but first the steps 1 and 2 are executed considering that in the file [constants.py](https://github.com/eam-experiments/EMNIST/blob/main/constants.py) the value of 36 is assigned to the number of labels, and in the file [convent.py](https://github.com/eam-experiments/EMNIST/blob/main/convnet.py) the EMNIST-36 dataset is loaded and 36 is passed as the number of units in the last ``Dense`` layer of the classifier.
 
 1. To run the experiment number 3 described in the paper the changes pointed out in the previous step are kept, and the next command is run:
 
