@@ -74,8 +74,8 @@ To see more information on how to use the code, just run the following command `
 
 Furthermore, the grid with the retrieved images from the AMRs shown if Figures 9 through 13 of the paper are obtained by:
 
-1. A text file (with extension ``.txt``) generated with rows formed by a pair of stage number and an image id, where each dataset class is instantiated by exactly one image in the text file. The way to select the images follows the corresponding method explained in the paper. An example of such text file is found in the file [stage_id_exp_10.txt](https://github.com/eam-experiments/EMNIST/blob/main/stage_id_exp_10.txt).
-1. Executing the script [select_imgs.sh](https://github.com/eam-experiments/EMNIST/blob/main/select_imgs.sh) in the source directory with arguments:
+- A text file (with extension ``.txt``) generated with rows formed by a pair of stage number and an image id, where each dataset class is instantiated by exactly one image in the text file. The way to select the images follows the corresponding method explained in the paper. An example of such text file is found in the file [stage_id_exp_10.txt](https://github.com/eam-experiments/EMNIST/blob/main/stage_id_exp_10.txt).
+- Executing the script [select_imgs.sh](https://github.com/eam-experiments/EMNIST/blob/main/select_imgs.sh) in the source directory with arguments:
     - the number of experiment the selected images belong to, and
     - the text file created in the previous step with the selected images.
 
