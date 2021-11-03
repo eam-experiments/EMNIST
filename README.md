@@ -37,14 +37,14 @@ All commands presented below are run in **this repository's source directory**. 
     python3 main_test_associative.py -f
     ```
 
-1. The experiment number 1 described in the paper is run with the two instructions shown next, but before the previous steps are executed considering that in the file [constants.py](https://github.com/eam-experiments/EMNIST/blob/main/constants.py) the value of 47 is set to the number of labels, and in the file [convent.py](https://github.com/eam-experiments/EMNIST/blob/main/convnet.py) the EMNIST-47 dataset is loaded and 47 is passed as the number of units in the last ``Dense`` layer of the classifier:
+1. The experiment number 1 described in the paper is run with the two instructions shown next, but first the steps 1 and 2 of this `README` file are executed considering that in [constants.py](https://github.com/eam-experiments/EMNIST/blob/main/constants.py) the value of 47 is set to the number of labels, and in [convent.py](https://github.com/eam-experiments/EMNIST/blob/main/convnet.py) the EMNIST-47 dataset is loaded and 47 is passed as the number of units in the last ``Dense`` layer of the classifier:
 
     ```shell
     python3 main_test_associative.py -e 1
     python3 main_test_associative.py -e 3
     ```
 
-1. Experiment number 2 described in the paper is also run with the two previous commands, but first the steps 1 and 2 are executed considering that in the file [constants.py](https://github.com/eam-experiments/EMNIST/blob/main/constants.py) the value of 36 is assigned to the number of labels, and in the file [convent.py](https://github.com/eam-experiments/EMNIST/blob/main/convnet.py) the EMNIST-36 dataset is loaded and 36 is passed as the number of units in the last ``Dense`` layer of the classifier.
+1. Experiment number 2 described in the paper is also run with the two previous commands, but first the steps 1 and 2 of this `README` file are executed considering that in [constants.py](https://github.com/eam-experiments/EMNIST/blob/main/constants.py) the value of 36 is assigned to the number of labels, and in [convent.py](https://github.com/eam-experiments/EMNIST/blob/main/convnet.py) the EMNIST-36 dataset is loaded and 36 is passed as the number of units in the last ``Dense`` layer of the classifier. This is the default configuration of the files in the repository.
 
 1. To run the experiment number 3 described in the paper the changes pointed out in the previous step are kept, and the next command is run:
 
@@ -52,12 +52,12 @@ All commands presented below are run in **this repository's source directory**. 
     python3 main_test_associative.py -e 4
     ```
 
-1. Experiment number 4 described in the paper keeps the changes made in step 4, and its execution can be divided in two parts.
+1. Experiment number 4 described in the paper keeps the configuration mentioned in step 4, and its execution can be divided in two parts.
     - The part corresponding to the retrieval of objects with a cue having the half bottom part occluded is run with the command:
     ```shell
     python3 main_test_associative.py -e 6 -o 0.5 -t 0
     ```
-    The tolerance value can be modified to retrive objects by AMRs that are allowed to fail in some number of features when recognizing an image. Say, the tolerance value is 1, the command is modified as:
+    The tolerance value can be modified to retrive objects by AMRs that are allowed to fail in some number of features when recognizing an image. Say, the tolerance value is 1, the command is now:
     ```shell
     python3 main_test_associative.py -e 6 -o 0.5 -t 1
     ```
@@ -72,7 +72,7 @@ All commands presented below are run in **this repository's source directory**. 
 
 To see more information on how to use the code, just run the following command ```python3 main_test_associative.py -h```
 
-Furthermore, the grid with the retrieved images from the AMRs shown if Figures 6 through 10 of the paper are obtained by:
+Furthermore, the grid with the retrieved images from the AMRs shown if Figures 9 through 13 of the paper are obtained by:
 
 1. A text file (with extension ``.txt``) generated with rows formed by a pair of stage number and an image id, where each dataset class is instantiated by exactly one image in the text file. The way to select the images follows the corresponding method explained in the paper. An example of such text file is found in the file [stage_id_exp_10.txt](https://github.com/eam-experiments/EMNIST/blob/main/stage_id_exp_10.txt).
 1. Executing the script [select_imgs.sh](https://github.com/eam-experiments/EMNIST/blob/main/select_imgs.sh) in the source directory with arguments:
@@ -83,23 +83,23 @@ Furthermore, the grid with the retrieved images from the AMRs shown if Figures 6
     ```shell
     $ ./select_imgs.sh 4 stage_id_exp_10.txt
     ```
-    produces a grid of images similar to the one in Figure 6 of the paper, assuming an appropriate selection of images within the argument file ``stage_id_exp_10.txt``.
+    produces a grid of images similar to the one in Figure 9 of the paper, assuming an appropriate selection of images within the argument file ``stage_id_exp_10.txt``.
 
     A third argument may be provided with the pattern ``occ_nnn`` for experiments 5 through 8, or ``bar_mmm``, for experiments 9 and 10, where ``nnn`` is the occlusion percentage and ``mmm`` is the chosen bar type. For example,
 
     ```shell
     $ ./select_imgs.sh 6 stage_id_exp_10.txt occ_050
     ```
-    produces a grid of images similar to the one in Figure 9 (a) of the paper, assuming an appropriate selection of images.
+    produces a grid of images similar to the one in Figure 12 (a) of the paper, assuming an appropriate selection of images.
 
     Given a third argument, a fourth one may be also included with the pattern ``tol_ppp``, where ``ppp`` is the number of allowed failing features by an AMR when recognizing an image. For example,
 
     ```shell
     $ ./select_imgs.sh 10 stage_id_exp_10_random.txt bar_001 tol_002
     ```
-    produces a grid of images similar to the one in Figure 10 (c) of the paper, assuming an appropriate selection of images.
+    produces a grid of images similar to the one in Figure 13 (c) of the paper, assuming an appropriate selection of images.
 
-    For the last example, the grid is saved in the file path ``runs/images/010/stage_id_exp_10-bar_001-tol_002/all.png``. Such path is formed by the prefix ``runs/images/``, followed by the experiment number ``010``, the text file name ``stage_id_exp_10``, the two optional patterns ``bar_001`` and ``tol_002``, which may be empty if the third and fourth script arguments are missing, and finally the predefined image name ``all.png``. All file paths of the grid of images generated by running the previous script are formed in an analogous way.
+    For the last example, the grid is saved in the file path ``runs/images/010/stage_id_exp_10-bar_001-tol_002/all.png``. Such path is formed by the prefix ``runs/images/``, followed by the experiment number ``010``, the text file name ``stage_id_exp_10``, the two optional patterns ``bar_001`` and ``tol_002``, which may be empty if the third and fourth script arguments are missing, and finally the predefined image name ``all.png``. All file paths of the grids of images generated by different executions of the previous script are formed in an analogous way.
 
 ## License
 
