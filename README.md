@@ -18,14 +18,14 @@ The following libraries need to be installed beforehand:
 * TensorFlow 2.4.1
 * extra-keras-datasets 1.2.0 <- from where the EMNIST dataset was imported
 
-The experiments were run using the Anaconda 4 distribution. This [link](https://www.osetc.com/en/how-to-install-anaconda-on-ubuntu-16-04-17-04-18-04.html) may be a good resource to install Anaconda, and these other two links ([link1](https://github.com/machinecurve/extra_keras_datasets#installation-procedure) and [link2](https://stackoverflow.com/a/43729857)) show how to install the ``extra-keras-datasets`` library in your system. You may clone the ``conda`` environment in the file [entropic_associative_mem_env.yml](https://github.com/eam-experiments/EMNIST/blob/main/entropic_associative_mem_env.yml), used to run the experiments, with the instruction ``$ conda env create -f entropic_associative_mem_env.yml``. The environment is activated with ``$ conda activate eam``.
+The experiments were run using the Anaconda 3 distribution. This [link](https://www.osetc.com/en/how-to-install-anaconda-on-ubuntu-16-04-17-04-18-04.html) may be a good resource to install Anaconda, and these other two links ([link1](https://github.com/machinecurve/extra_keras_datasets#installation-procedure) and [link2](https://stackoverflow.com/a/43729857)) show how to install the ``extra-keras-datasets`` library in your system. You may clone the ``conda`` environment in the file [entropic_associative_mem_env.yml](https://github.com/eam-experiments/EMNIST/blob/main/entropic_associative_mem_env.yml), used to run the experiments, with the instruction ``$ conda env create -f entropic_associative_mem_env.yml``. The environment is activated with ``$ conda activate eam``.
 
 
 ### Use
 
 All commands presented below are run in **this repository's source directory**. The output of the experiments is in several files and folders rooted in the ``runs/`` subdirectory, that is created as the experiments are executed. Moreover, within the ``runs/images/`` subdirectory a folder is created for experiment 3 and for the diferent conditions of experiment 4. Inside such folder, other ten are found corresponding to the 10 stages of the cross-validation procedure, each containing eight folders with the diferent levels of entropy holding the constructed images.
 
-1. With the next instruction the neural network is trained, separating NN and AM training data (Separate Data NN):
+1. With the next instruction the neural network -i.e., the autoencoder and classifier- is trained:
 
     ```shell
     python3 main_test_associative.py -n
@@ -53,7 +53,7 @@ All commands presented below are run in **this repository's source directory**. 
     ```
 
 1. Experiment number 4 described in the paper keeps the configuration mentioned in step 4, and its execution can be divided in two parts.
-    - The part corresponding to the retrieval of objects with a cue having the half bottom part occluded is run with the command:
+    - The part corresponding to the retrieval of objects with a cue having the bottom half part occluded is run with the command:
     ```shell
     python3 main_test_associative.py -e 6 -o 0.5 -t 0
     ```
@@ -74,7 +74,7 @@ To see more information on how to use the code, just run the following command `
 
 Furthermore, the grid with the retrieved images from the AMRs shown if Figures 9 through 13 of the paper are obtained by:
 
-- A text file (with extension ``.txt``) generated with rows formed by a pair of stage number and an image id, where each dataset class is instantiated by exactly one image in the text file. The way to select the images follows the corresponding method explained in the paper. An example of such text file is found in the file [stage_id_exp_10.txt](https://github.com/eam-experiments/EMNIST/blob/main/stage_id_exp_10.txt).
+- A text file (with extension ``.txt``) with pairs of stage number (resulting from the ten-fold cross-validation procedure) and an image id produced by that particular stage, where such pairs are separated by line breaks and each dataset class is represented by exactly one image id in the text file. The way to select the images follows the corresponding method explained in the paper. An example of such text file is found in [stage_id_exp_10.txt](https://github.com/eam-experiments/EMNIST/blob/main/stage_id_exp_10.txt).
 - Executing the script [select_imgs.sh](https://github.com/eam-experiments/EMNIST/blob/main/select_imgs.sh) in the source directory with arguments:
     - the number of experiment the selected images belong to, and
     - the text file created in the previous step with the selected images.
@@ -99,7 +99,7 @@ Furthermore, the grid with the retrieved images from the AMRs shown if Figures 9
     ```
     produces a grid of images similar to the one in Figure 13 (c) of the paper, assuming an appropriate selection of images.
 
-    For the last example, the grid is saved in the file path ``runs/images/010/stage_id_exp_10-bar_001-tol_002/all.png``. Such path is formed by the prefix ``runs/images/``, followed by the experiment number ``010``, the text file name ``stage_id_exp_10``, the two optional patterns ``bar_001`` and ``tol_002``, which may be empty if the third and fourth script arguments are missing, and finally the predefined image name ``all.png``. All file paths of the grids of images generated by different executions of the previous script are formed in an analogous way.
+    The grid corresponding to the last example is saved in the file path ``runs/images/010/stage_id_exp_10-bar_001-tol_002/all.png``. Such path is formed by the prefix ``runs/images/``, followed by the experiment number ``010``, the text file name ``stage_id_exp_10``, the two optional patterns ``bar_001`` and ``tol_002``, which may be empty if the third and fourth script arguments are missing, and finally the predefined image name ``all.png``. All file paths of the grids of images generated by different executions of the previous script are formed in an analogous way.
 
 ## License
 
