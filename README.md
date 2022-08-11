@@ -1,7 +1,7 @@
 # Entropic Associative Memory for Manuscript Symbols
 This repository contains the data and procedures to replicate the experiments presented in the paper
 
-Rafael Morales, Noé Hernández, Ricardo Cruz, Victor D. Cruz and Luis A. Pineda. 2021. “Entropic Associative Memory for Manuscript Symbols”.
+Rafael Morales, Noé Hernández, Ricardo Cruz, Victor D. Cruz and Luis A. Pineda. 2022. “Entropic Associative Memory for Manuscript Symbols”. PLOS ONE 17(8): e0272386. [https://doi.org/10.1371/journal.pone.0272386](https://doi.org/10.1371/journal.pone.0272\386).
 
 The code was written in Python 3.8.10 and was run on an Alienware Aurora R5 computer with the following specifications:
 * CPU: Intel Core i7-6700 at 3.40 GHz
@@ -37,14 +37,14 @@ All commands presented below are run in **this repository's source directory**. 
     python3 main_test_associative.py -f
     ```
 
-1. The experiment number 1 described in the paper is run with the two instructions shown next, but first the steps 1 and 2 of this `README` file are executed considering that in [constants.py](https://github.com/eam-experiments/EMNIST/blob/main/constants.py) the value of 47 is set to the number of labels, and in [convent.py](https://github.com/eam-experiments/EMNIST/blob/main/convnet.py) the EMNIST-47 dataset is loaded and 47 is passed as the number of units in the last ``Dense`` layer of the classifier:
+1. The experiment number 1 described in the paper is run with the two instructions shown next, but first the steps 1 and 2 of this `README` file are executed considering that in [constants.py](https://github.com/eam-experiments/EMNIST/blob/main/constants.py) the value of 47 is set to the number of labels, and in [convnet.py](https://github.com/eam-experiments/EMNIST/blob/main/convnet.py) the EMNIST-47 dataset is loaded and 47 is passed as the number of units in the last ``Dense`` layer of the classifier:
 
     ```shell
     python3 main_test_associative.py -e 1
     python3 main_test_associative.py -e 3
     ```
 
-1. Experiment number 2 described in the paper is also run with the two previous commands, but first the steps 1 and 2 of this `README` file are executed considering that in [constants.py](https://github.com/eam-experiments/EMNIST/blob/main/constants.py) the value of 36 is assigned to the number of labels, and in [convent.py](https://github.com/eam-experiments/EMNIST/blob/main/convnet.py) the EMNIST-36 dataset is loaded and 36 is passed as the number of units in the last ``Dense`` layer of the classifier. This is the default configuration of the files in the repository.
+1. Experiment number 2 described in the paper is also run with the two previous commands, but first the steps 1 and 2 of this `README` file are executed considering that in [constants.py](https://github.com/eam-experiments/EMNIST/blob/main/constants.py) the value of 36 is assigned to the number of labels, and in [convnet.py](https://github.com/eam-experiments/EMNIST/blob/main/convnet.py) the EMNIST-36 dataset is loaded and 36 is passed as the number of units in the last ``Dense`` layer of the classifier. This is the default configuration of the files in the repository.
 
 1. To run the experiment number 3 described in the paper the changes pointed out in the previous step are kept, and the next command is run:
 
