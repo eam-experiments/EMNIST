@@ -211,25 +211,23 @@ def plot_features_graph(domain, means, stdevs, experiment, occlusion = None, bar
         plt.savefig(constants.picture_filename(filename), dpi=500)
 
 
-def get_label(memories, weights = None, entropies = None):
-    if len(memories) == 1:
-        return memories[0]
-    random.shuffle(memories)
-    if (entropies is None) or (weights is None):
-        return memories[0]
+def get_label(memories, entropies = None):
+
+    # Random selection
+    if entropies is None:
+        i = random.atddrange(len(memories))
+        return memories[i]
     else:
         i = memories[0] 
         entropy = entropies[i]
-        weight = weights[i]
-        penalty = entropy/weight if weight > 0 else float('inf')
+
         for j in memories[1:]:
-            entropy = entropies[j]
-            weight = weights[j]
-            new_penalty = entropy/weight if weight > 0 else float('inf')
-            if new_penalty < penalty:
+            if entropy > entropies[j]:
                 i = j
-                penalty = new_penalty
-        return i
+                entropy = entropies[i]
+    
+    return i
+
 
 def msize_features(features, msize, min_value, max_value):
     return np.round((msize-1)*(features-min_value) / (max_value-min_value)).astype(np.int16)
@@ -282,14 +280,13 @@ def get_ams_results(midx, msize, domain, lpm, trf, tef, trl, tel, tolerance=0):
 
     for features, label in zip(tef_rounded, tel):
         correct = int(label/lpm)
+
         memories = []
-        weights = {}
         for k in ams:
-            recognized,weight = ams[k].recognize(features)
+            recognized = ams[k].recognize(features)
             if recognized:
                 memories.append(k)
-                weights[k] = weight
-                
+
             # For calculation of per memory precision and recall
             if (k == correct) and recognized:
                 cms[k][TP] += 1
@@ -307,7 +304,7 @@ def get_ams_results(midx, msize, domain, lpm, trf, tef, trl, tel, tolerance=0):
         elif not (correct in memories):
             behaviour[constants.no_correct_response_idx] += 1
         else:
-            l = get_label(memories, weights, entropy)
+            l = get_label(memories, entropy)
             if l != correct:
                 behaviour[constants.no_correct_chosen_idx] += 1
             else:
@@ -568,13 +565,13 @@ def get_recalls(ams, msize, domain, min, max, trf, trl, tef, tel, idx):
     mismatches = 0 
     # Recover memories
     for n, features, label in zip(range(len(tef_rounded)), tef_rounded, tel):
-        mismatches += ams[label].mismatches(features)
         memories = []
-        weights = {}
         recalls ={}
+
+        mismatches += ams[label].mismatches(features)
         for k in ams:
-            recall,recognized,weight = ams[k].recall(features)
-            #recognized = not (ams[k].is_undefined(recall))
+            recall = ams[k].recall(features)
+            recognized = not (ams[k].is_undefined(recall))
 
             # For calculation of per memory precision and recall
             if (k == label) and recognized:
@@ -589,7 +586,6 @@ def get_recalls(ams, msize, domain, min, max, trf, trl, tef, tel, idx):
             if recognized:
                 memories.append(k)
                 recalls[k] = recall
-                weights[k] = weight
 
         if (len(memories) == 0):
             # Register empty case
@@ -597,7 +593,7 @@ def get_recalls(ams, msize, domain, min, max, trf, trl, tef, tel, idx):
             all_recalls.append((n, label, undefined))
             cm[FN] += 1
         else:
-            l = get_label(memories, weights, entropy)
+            l = get_label(memories, entropy)
             features = recalls[l]*(max-min)*1.0/(msize-1) + min
             all_recalls.append((n, label, features))
 

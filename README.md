@@ -1,7 +1,7 @@
 # Entropic Associative Memory for Manuscript Symbols
 This repository contains the data and procedures to replicate the experiments presented in the paper
 
-Rafael Morales, Noé Hernández, Ricardo Cruz, Victor D. Cruz and Luis A. Pineda. 2022. “Entropic Associative Memory for Manuscript Symbols”. PLOS ONE 17(8): e0272386. [https://doi.org/10.1371/journal.pone.0272386](https://doi.org/10.1371/journal.pone.0272\386).
+Rafael Morales, Noé Hernández, Ricardo Cruz, Victor D. Cruz and Luis A. Pineda. 2022. “Entropic Associative Memory for Manuscript Symbols”. PLOS ONE 17(8): e0272386. [https://doi.org/10.1371/journal.pone.0272386](https://doi.org/10.1371/journal.pone.0272386).
 
 The code was written in Python 3.8.10 and was run on an Alienware Aurora R5 computer with the following specifications:
 * CPU: Intel Core i7-6700 at 3.40 GHz
